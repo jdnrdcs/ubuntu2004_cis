@@ -5,3 +5,68 @@ vi /etc/systemd/timesyncd.conf
 NTP=10.20.64.3 10.20.64.4
 FallbackNTP=ntp.ubuntu.com
 RootDistanceMaxSec=1
+
+apt install tcpd
+
+/etc/hosts.allow
+ALL: 127. 10.0.0.0/8 192.168.5.0/24 192.168.6.0/24 192.168.7.0/24 192.168.8.0/24 192.168.127.0/24
+
+/etc/hosts.deny
+ALL: ALL
+
+Ensure logging is configured
+vi /etc/rsyslog.d/90-local.conf
+
+local1.*            -/var/log/local1.log
+local2.*            -/var/log/local2.log
+local3.*            -/var/log/local3.log
+local4.*            -/var/log/local4.log
+local5.*            -/var/log/local5.log
+local6.*            -/var/log/local6.log
+local7.*            -/var/log/local7.log
+local0.*            -/var/log/local0.log
+cron.*              -/var/log/cron.log
+daemon.*            -/var/log/daemon.log
+lpr.*               -/var/log/lpr.log
+user.*              -/var/log/user.log
+mail.info           -/var/log/mail.info
+mail.warn           -/var/log/mail.warn
+*.*;mail.none;news.none -/var/log/messages
+*.=warning;*.=err   -/var/log/warn
+*.crit               /var/log/warn
+local0,local1.*     -/var/log/localmessages
+local2,local3.*     -/var/log/localmessages
+local4,local5.*     -/var/log/localmessages
+local6,local7.*     -/var/log/localmessages
+mail.*              -/var/log/mail
+news.crit           -/var/log/news/news.crit
+news.err            -/var/log/news/news.err
+news.notice         -/var/log/news/news.notice
+
+# replace with correct remote IP
+#*.*                 @@10.20.4.9
+# replace with correct remote IP
+*.*                 action(type="omfwd" target="10.20.64.36" port="514" protocol="tcp"
+                           action.resumeRetryCount="100"
+                           queue.type="linkedList" queue.size="1000")
+                           
+vi /etc/rsyslog.d/apache.conf
+
+$ModLoad imfile
+
+$InputFilePollInterval 10
+
+input(type="imfile"
+         File="/var/log/apache2/other_vhosts_access.log"
+         Tag="apache-access"
+         Severity="info"
+         Facility="local4"
+         ruleset="ApacheAccessLog")
+
+input(type="imfile"
+         File="/var/log/apache2/error.log"
+         Tag="apache-error"
+         Severity="info"
+         Facility="local3"
+         ruleset="ApacheErrorLog")
+
