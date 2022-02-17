@@ -79,3 +79,10 @@ vi /etc/pam.d/su
 1.5.2 Ensure bootloader password is set - 'passwd_pbkdf2'
 tiek 2.31 tiek 2.32 yra:
 grub.pbkdf2.sha512.10000.70719C5033EC64317E10D2C17704500DC6803060BA10D84D6BF1C43921A752A41487B48A0CB9C8A588DE4AAF5EBE75FCFB8F5CC49BC16951A9DF74FAF7CA36FD.2741E3BAE7D11D7D280728833DFB719BEF012DE006ABE2901ECB3B1846258DA1AE701EA3A9271252283777432041D279D7FD5BFAC03955FD5937BB32C435620D
+
+  vi /etc/grub.d/40_custom
+    set superusers="root"
+    password_pbkdf2 root grub.pbkdf2.sha512.10000.8BF8A37----password-hash-removed-----
+
+  vi /etc/grub.d/10_linux
+    CLASS="--class gnu-linux --class gnu --class os --unrestricted"
