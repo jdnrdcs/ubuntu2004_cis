@@ -1,0 +1,7 @@
+cyberset custom hardenining<br><br>
+
+apt install systemd-timesyncd<br>
+vi /etc/systemd/timesyncd.conf<br>
+NTP=10.20.64.3 10.20.64.4<br>
+FallbackNTP=ntp.ubuntu.com<br>
+RootDistanceMaxSec=1<br>
