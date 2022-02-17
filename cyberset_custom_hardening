@@ -86,3 +86,6 @@ grub.pbkdf2.sha512.10000.70719C5033EC64317E10D2C17704500DC6803060BA10D84D6BF1C43
 
   vi /etc/grub.d/10_linux
     CLASS="--class gnu-linux --class gnu --class os --unrestricted"
+
+vi /etc/systemd/system/tmp.mount
+  Options=mode=1777,strictatime,nodev,nosuid,noexec
