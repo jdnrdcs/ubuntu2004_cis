@@ -1,0 +1,12 @@
+in order to run faster playbook role
+
+  vim roles/ubuntu2004_cis/tasks/prelim.yml
+  search for 'Run apt cache update'
+  change:  update_cache: true
+  to: update_cache:false
+
+rules names are created in
+  vim roles/ubuntu2004_cis/defaults/main.yml
+modules are disabled/remove:
+  vim roles/ubuntu2004_cis/tasks/section1.yml
+  
